@@ -121,7 +121,7 @@ const CONFIG = {
   HEO_SOCIAL_CARD_TITLE_1: '交流频道',
   HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
   HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
-  HEO_SOCIAL_CARD_URL: 'https://docs.tangly1024.com/article/how-to-question',
+  HEO_SOCIAL_CARD_URL: 'https://https://qun.qq.com/universal-share/share?ac=1&authKey=P2LP78AoIEjJPo%2BzJRGkKIblV1vhapC17ME%2BhSgl06QfTz4WNOfVF1gn7Hz70r1e&busi_data=eyJncm91cENvZGUiOiI5NTA2NDI4OTAiLCJ0b2tlbiI6IkZJRjNWaXRUYWlOOXJ6ZFFoZXZBa0xac1VlcG9ZeE5uVEZIU0hhZjI2SEpoZytiT0E0YmtHQkZmVWJWeTJQSEwiLCJ1aW4iOiIzMzM5NzE3ODIyIn0%3D&data=o_aLiUSFo4FulvTUaJtQAA62amHqHhz3-bdiDAzv8mWv6NSTBGqunyr6Dedmd8QdXPFYaGN_0CJwSp5fgB1Xug&svctype=4&tempid=h5_group_info',
 
   // 底部统计面板文案
   HEO_POST_COUNT_TITLE: '文章数:',
