@@ -15,6 +15,10 @@ const Style = () => {
   const blurPx = Number(siteConfig('AURORA_CARD_BLUR_PX', 16, CONFIG))
   const alphaLight = Number(siteConfig('AURORA_CARD_ALPHA_LIGHT', 0.72, CONFIG))
   const alphaDark = Number(siteConfig('AURORA_CARD_ALPHA_DARK', 0.5, CONFIG))
+  const radiusCard = Number(siteConfig('AURORA_RADIUS_CARD_PX', 18, CONFIG))
+  const radiusPanel = Number(siteConfig('AURORA_RADIUS_PANEL_PX', 14, CONFIG))
+  const radiusChip = Number(siteConfig('AURORA_RADIUS_CHIP_PX', 10, CONFIG))
+  const radiusButton = Number(siteConfig('AURORA_RADIUS_BUTTON_PX', 12, CONFIG))
   const bgLight = siteConfig(
     'AURORA_BACKGROUND_LIGHT',
     'linear-gradient(145deg, #edf7ff 0%, #f8fcff 42%, #ecfeff 100%)',
@@ -27,6 +31,9 @@ const Style = () => {
   )
   const bgImageLight = siteConfig('AURORA_BACKGROUND_IMAGE_LIGHT', '', CONFIG)
   const bgImageDark = siteConfig('AURORA_BACKGROUND_IMAGE_DARK', '', CONFIG)
+  const bgImageDefault = siteConfig('AURORA_BACKGROUND_IMAGE_DEFAULT', '', CONFIG)
+  const resolvedBgLight = bgImageLight || bgImageDefault
+  const resolvedBgDark = bgImageDark || bgImageDefault
 
   return (
     <style jsx global>{`
@@ -38,24 +45,28 @@ const Style = () => {
         --aurora-glass-blur: ${blurPx}px;
         --aurora-glass-alpha-light: ${alphaLight};
         --aurora-glass-alpha-dark: ${alphaDark};
+        --aurora-radius-card: ${radiusCard}px;
+        --aurora-radius-panel: ${radiusPanel}px;
+        --aurora-radius-chip: ${radiusChip}px;
+        --aurora-radius-btn: ${radiusButton}px;
       }
 
       body {
         color: var(--aurora-text);
         background: ${bgLight};
-        ${bgImageLight ? `background-image: url('${bgImageLight}');` : ''}
-        ${bgImageLight ? 'background-size: cover;' : ''}
-        ${bgImageLight ? 'background-position: center;' : ''}
-        ${bgImageLight ? 'background-attachment: fixed;' : ''}
+        ${resolvedBgLight ? `background-image: url('${resolvedBgLight}');` : ''}
+        ${resolvedBgLight ? 'background-size: cover;' : ''}
+        ${resolvedBgLight ? 'background-position: center;' : ''}
+        ${resolvedBgLight ? 'background-attachment: fixed;' : ''}
       }
 
       .dark body {
         color: var(--aurora-text-dark);
         background: ${bgDark};
-        ${bgImageDark ? `background-image: url('${bgImageDark}');` : ''}
-        ${bgImageDark ? 'background-size: cover;' : ''}
-        ${bgImageDark ? 'background-position: center;' : ''}
-        ${bgImageDark ? 'background-attachment: fixed;' : ''}
+        ${resolvedBgDark ? `background-image: url('${resolvedBgDark}');` : ''}
+        ${resolvedBgDark ? 'background-size: cover;' : ''}
+        ${resolvedBgDark ? 'background-position: center;' : ''}
+        ${resolvedBgDark ? 'background-attachment: fixed;' : ''}
       }
 
       // 公告栏中的字体固定白色
@@ -66,11 +77,27 @@ const Style = () => {
       #theme-aurora .card,
       #theme-aurora .aurora-glass,
       #theme-aurora nav {
+        border-radius: var(--aurora-radius-card) !important;
         background: rgba(255, 255, 255, var(--aurora-glass-alpha-light));
         -webkit-backdrop-filter: blur(var(--aurora-glass-blur));
         backdrop-filter: blur(var(--aurora-glass-blur));
         border: 1px solid rgba(255, 255, 255, 0.36);
         box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      }
+
+      #theme-aurora .aurora-float-panel {
+        border-radius: var(--aurora-radius-panel);
+        border: 1px solid rgba(255, 255, 255, 0.44);
+        background: rgba(255, 255, 255, 0.52);
+        -webkit-backdrop-filter: blur(calc(var(--aurora-glass-blur) * 0.72));
+        backdrop-filter: blur(calc(var(--aurora-glass-blur) * 0.72));
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      #theme-aurora .aurora-float-panel:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 28px rgba(15, 23, 42, 0.18);
       }
 
       #theme-aurora.dark .card,
@@ -81,6 +108,13 @@ const Style = () => {
         background: rgba(15, 23, 42, var(--aurora-glass-alpha-dark));
         border-color: rgba(148, 163, 184, 0.28);
         box-shadow: 0 16px 36px rgba(2, 6, 23, 0.45);
+      }
+
+      #theme-aurora.dark .aurora-float-panel,
+      .dark #theme-aurora .aurora-float-panel {
+        border-color: rgba(148, 163, 184, 0.35);
+        background: rgba(15, 23, 42, 0.55);
+        box-shadow: 0 14px 30px rgba(2, 6, 23, 0.42);
       }
 
       #theme-aurora .text-indigo-600,
@@ -129,6 +163,29 @@ const Style = () => {
         to {
           transform: rotate(360deg);
         }
+      }
+
+      #theme-aurora .rounded-xl,
+      #theme-aurora .rounded-2xl,
+      #theme-aurora .rounded-lg {
+        border-radius: var(--aurora-radius-card) !important;
+      }
+
+      #theme-aurora .rounded-md,
+      #theme-aurora .rounded-sm {
+        border-radius: var(--aurora-radius-chip) !important;
+      }
+
+      #theme-aurora button,
+      #theme-aurora [role='button'],
+      #theme-aurora .aurora-btn {
+        border-radius: var(--aurora-radius-btn) !important;
+      }
+
+      #theme-aurora #category-bar-items > div,
+      #theme-aurora #category-list a,
+      #theme-aurora #tag-list a {
+        border-radius: var(--aurora-radius-chip) !important;
       }
 
       ::-webkit-scrollbar-thumb {
