@@ -207,7 +207,7 @@ const LayoutArchive = props => {
   // 归档页顶部显示条，如果是默认归档则不显示。分类详情页显示分类列表，标签详情页显示当前标签
 
   return (
-    <div className='p-5 rounded-xl border dark:border-gray-600 max-w-6xl w-full bg-white dark:bg-[#1e1e1e]'>
+    <div className='aurora-glass p-5 max-w-6xl w-full'>
       <div className='px-3'>
         {Object.keys(archivePosts).map(archiveTitle => (
           <BlogPostArchive
@@ -272,7 +272,7 @@ const LayoutSlug = props => {
   return (
     <>
       <div
-        className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#18171d] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
+        className={`article aurora-glass h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''} lg:px-2 lg:py-4`}>
         {/* 文章锁 */}
         {lock && <PostLock validPassword={validPassword} />}
 
@@ -318,12 +318,14 @@ const LayoutSlug = props => {
                   <AdSlot />
                 </div>
                 {/* 评论互动 */}
-                <div className='duration-200 overflow-x-auto px-5'>
-                  <div className='text-2xl dark:text-white'>
+                <div className='duration-200 overflow-x-auto px-5 pb-5'>
+                  <div className='text-2xl dark:text-white mb-3'>
                     <i className='fas fa-comment mr-1' />
                     {locale.COMMON.COMMENTS}
                   </div>
-                  <Comment frontMatter={post} className='' />
+                  <div className='aurora-glass p-4'>
+                    <Comment frontMatter={post} className='' />
+                  </div>
                 </div>
               </div>
             )}
@@ -362,7 +364,7 @@ const Layout404 = props => {
             leaveTo='opacity-0 -translate-y-16'
             unmount={false}>
             {/* 404卡牌 */}
-            <div className='error-content flex flex-col md:flex-row w-full mt-12 h-[30rem] md:h-96 justify-center items-center bg-white dark:bg-[#1B1C20] border dark:border-gray-800 rounded-3xl'>
+            <div className='error-content aurora-glass flex flex-col md:flex-row w-full mt-12 h-[30rem] md:h-96 justify-center items-center'>
               {/* 左侧动图 */}
               <LazyImage
                 className='error-img h-60 md:h-full p-4'
@@ -377,7 +379,7 @@ const Layout404 = props => {
                 </h1>
                 <div className='dark:text-white'>请尝试站内搜索寻找文章</div>
                 <SmartLink href='/'>
-                  <button className='bg-blue-500 py-2 px-4 text-white shadow rounded-lg hover:bg-blue-600 hover:shadow-md duration-200 transition-all'>
+                  <button className='aurora-btn bg-blue-500 py-2 px-4 text-white shadow hover:bg-blue-600 hover:shadow-md duration-200 transition-all'>
                     回到主页
                   </button>
                 </SmartLink>
@@ -421,11 +423,11 @@ const LayoutCategoryIndex = props => {
               legacyBehavior>
               <div
                 className={
-                  'group mr-5 mb-5 flex flex-nowrap items-center border bg-white text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
+                  'aurora-glass aurora-chip group mr-5 mb-5 flex flex-nowrap items-center text-2xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
                 }>
                 <HashTag className={'w-5 h-5 stroke-gray-500 stroke-2'} />
                 {category.name}
-                <div className='bg-[#f1f3f8] ml-1 px-2 rounded-lg group-hover:text-indigo-600 '>
+                <div className='aurora-chip ml-1 px-2 group-hover:text-indigo-600 '>
                   {category.count}
                 </div>
               </div>
@@ -463,11 +465,11 @@ const LayoutTagIndex = props => {
               legacyBehavior>
               <div
                 className={
-                  'group flex flex-nowrap items-center border bg-white text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
+                  'aurora-glass aurora-chip group flex flex-nowrap items-center text-2xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
                 }>
                 <HashTag className={'w-5 h-5 stroke-gray-500 stroke-2'} />
                 {tag.name}
-                <div className='bg-[#f1f3f8] ml-1 px-2 rounded-lg group-hover:text-indigo-600 '>
+                <div className='aurora-chip ml-1 px-2 group-hover:text-indigo-600 '>
                   {tag.count}
                 </div>
               </div>

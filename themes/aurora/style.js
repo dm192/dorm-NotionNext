@@ -182,6 +182,36 @@ const Style = () => {
         border-radius: var(--aurora-radius-btn) !important;
       }
 
+      #theme-aurora .aurora-btn {
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        transition: all 180ms ease;
+      }
+
+      #theme-aurora .aurora-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      #theme-aurora .aurora-chip {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--aurora-radius-chip);
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
+
+      .dark #theme-aurora .aurora-chip {
+        background: rgba(15, 23, 42, 0.45);
+        border-color: rgba(148, 163, 184, 0.3);
+      }
+
+      #theme-aurora .aurora-hover-lift:hover {
+        transform: translateY(-3px);
+      }
+
+      #theme-aurora .aurora-post-card {
+        transition: transform 220ms ease;
+      }
+
       #theme-aurora #category-bar-items > div,
       #theme-aurora #category-list a,
       #theme-aurora #tag-list a {
