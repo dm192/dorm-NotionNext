@@ -29,27 +29,35 @@ export function InfoCard(props) {
     <Card
       className={`${className || ''} aurora-glass wow fadeInUp text-gray-900 dark:text-gray-100 flex flex-col overflow-hidden relative`}>
       <div className='flex justify-between items-start gap-3'>
-        <div className='min-w-0'>
-          <GreetingsWords />
-          <h2 className='text-2xl md:text-3xl font-black mt-3 truncate'>{author}</h2>
-          <p className='text-sm mt-2 text-gray-600 dark:text-gray-300 leading-6'>
-            {bio}
-          </p>
+        <div className='min-w-0 space-y-3'>
+          <div className='aurora-float-panel inline-flex'>
+            <GreetingsWords />
+          </div>
+          <div className='aurora-float-panel px-3 py-2'>
+            <h2 className='text-2xl md:text-3xl font-black truncate'>{author}</h2>
+          </div>
+          <div className='aurora-float-panel px-3 py-2'>
+            <p className='text-sm text-gray-600 dark:text-gray-300 leading-6'>
+              {bio}
+            </p>
+          </div>
         </div>
 
         <div
           className={`${isSlugPage ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-80 hover:scale-110' : 'cursor-pointer'} justify-center items-center flex transform transitaion-all duration-200`}>
-          <LazyImage
-            src={siteInfo?.icon || '/avatar.svg'}
-            className='rounded-2xl border border-white/40 shadow-md'
-            width={isSlugPage ? 104 : 72}
-            height={isSlugPage ? 104 : 72}
-            alt={author}
-          />
+          <div className='aurora-float-panel p-1.5'>
+            <LazyImage
+              src={siteInfo?.icon || '/avatar.svg'}
+              className='rounded-2xl border border-white/40 shadow-md'
+              width={isSlugPage ? 104 : 72}
+              height={isSlugPage ? 104 : 72}
+              alt={author}
+            />
+          </div>
         </div>
       </div>
 
-      <div className='mt-4'>
+      <div className='mt-4 aurora-float-panel px-3 py-2'>
         <Announcement post={props.notice} />
       </div>
 
@@ -57,14 +65,14 @@ export function InfoCard(props) {
         <div className='flex space-x-3'>
           {/* 两个社交按钮 */}
           {url1 && (
-            <div className='w-10 text-center bg-white/55 dark:bg-slate-800/65 p-2 rounded-full transition-colors duration-200 hover:bg-white dark:hover:bg-black'>
+            <div className='aurora-float-panel w-10 text-center bg-white/55 dark:bg-slate-800/65 p-2 rounded-lg transition-colors duration-200 hover:bg-white dark:hover:bg-black'>
               <SmartLink href={url1}>
                 <i className={icon1} />
               </SmartLink>
             </div>
           )}
           {url2 && (
-            <div className='bg-white/55 dark:bg-slate-800/65 p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 hover:bg-white dark:hover:bg-black'>
+            <div className='aurora-float-panel bg-white/55 dark:bg-slate-800/65 p-2 rounded-lg w-10 items-center flex justify-center transition-colors duration-200 hover:bg-white dark:hover:bg-black'>
               <SmartLink href={url2}>
                 <i className={icon2} />
               </SmartLink>
@@ -92,7 +100,7 @@ function MoreButton() {
     <SmartLink href={url3}>
       <div
         className={
-          'group bg-white/55 dark:bg-slate-800/65 hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white flex items-center transition-colors duration-200 py-2 px-3 rounded-full space-x-1'
+          'aurora-float-panel group bg-white/55 dark:bg-slate-800/65 hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white flex items-center transition-colors duration-200 py-2 px-3 rounded-lg space-x-1'
         }>
         <ArrowRightCircle
           className={

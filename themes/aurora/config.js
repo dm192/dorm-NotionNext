@@ -10,12 +10,19 @@ const CONFIG = {
   AURORA_CARD_BLUR_PX: 16,
   AURORA_CARD_ALPHA_LIGHT: 0.72,
   AURORA_CARD_ALPHA_DARK: 0.5,
+  AURORA_RADIUS_CARD_PX: 18,
+  AURORA_RADIUS_PANEL_PX: 14,
+  AURORA_RADIUS_CHIP_PX: 10,
+  AURORA_RADIUS_BUTTON_PX: 12,
   AURORA_BACKGROUND_LIGHT:
     'linear-gradient(145deg, #edf7ff 0%, #f8fcff 42%, #ecfeff 100%)',
   AURORA_BACKGROUND_DARK:
     'linear-gradient(160deg, #0b1220 0%, #0f172a 55%, #111827 100%)',
   AURORA_BACKGROUND_IMAGE_LIGHT: '',
   AURORA_BACKGROUND_IMAGE_DARK: '',
+  // 默认樱花背景（可替换为你自己的图）
+  AURORA_BACKGROUND_IMAGE_DEFAULT:
+    'https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1920&q=80',
 
   HEO_HOME_BANNER_ENABLE: true,
 

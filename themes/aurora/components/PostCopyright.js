@@ -1,42 +1,38 @@
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import SmartLink from '@/components/SmartLink'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import CONFIG from '../config'
 import NotByAI from '@/components/NotByAI'
 
-/**
- * 版权声明
- * @returns
- */
 export default function PostCopyright() {
   const router = useRouter()
   const [path, setPath] = useState(siteConfig('LINK') + router.asPath)
-  useEffect(() => {
-    setPath(window.location.href)
-  })
-
   const { locale } = useGlobal()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPath(window.location.href)
+    }
+  }, [])
 
   if (!siteConfig('HEO_ARTICLE_COPYRIGHT', null, CONFIG)) {
     return <></>
   }
 
   return (
-    <section className='dark:text-gray-300 mt-6 mx-1 '>
-      <ul className='overflow-x-auto whitespace-nowrap text-sm dark:bg-gray-900 bg-gray-100 p-5 leading-8 border-l-2 border-indigo-500'>
+    <section className='dark:text-gray-300 mt-6 mx-1'>
+      <ul className='aurora-glass overflow-x-auto whitespace-nowrap text-sm p-5 leading-8 border-l-2 border-indigo-500 dark:border-yellow-500'>
         <li>
           <strong className='mr-2'>{locale.COMMON.AUTHOR}:</strong>
-          <SmartLink href={'/about'} className='hover:underline'>
+          <SmartLink href='/about' className='hover:underline'>
             {siteConfig('AUTHOR')}
           </SmartLink>
         </li>
         <li>
           <strong className='mr-2'>{locale.COMMON.URL}:</strong>
-          <a
-            className='whitespace-normal break-words hover:underline'
-            href={path}>
+          <a className='whitespace-normal break-words hover:underline' href={path}>
             {path}
           </a>
         </li>

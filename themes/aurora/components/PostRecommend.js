@@ -1,14 +1,9 @@
+import SmartLink from '@/components/SmartLink'
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
 
-/**
- * 关联推荐文章
- * @param {prev,next} param0
- * @returns
- */
 export default function PostRecommend({ recommendPosts, siteInfo }) {
   const { locale } = useGlobal()
 
@@ -21,49 +16,41 @@ export default function PostRecommend({ recommendPosts, siteInfo }) {
   }
 
   return (
-    <div className='pt-8 hidden md:block'>
-      {/* 推荐文章 */}
-      <div className=' mb-2 px-1 flex flex-nowrap justify-between'>
+    <section className='pt-8 hidden md:block'>
+      <div className='mb-3 px-1 flex items-center'>
         <div className='dark:text-gray-300 text-lg font-bold'>
           <i className='mr-2 fas fa-thumbs-up' />
           {locale.COMMON.RELATE_POSTS}
         </div>
       </div>
 
-      {/* 文章列表 */}
-
       <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
         {recommendPosts.map(post => {
-          const headerImage = post?.pageCoverThumbnail
-            ? post?.pageCoverThumbnail
-            : siteInfo?.pageCover
-
+          const headerImage = post?.pageCoverThumbnail || siteInfo?.pageCover
           return (
             <SmartLink
               key={post?.id}
               title={post?.title}
               href={post?.href}
               passHref
-              className='flex h-40 cursor-pointer overflow-hidden rounded-2xl'>
+              className='aurora-glass aurora-hover-lift flex h-44 cursor-pointer overflow-hidden'>
               <div className='h-full w-full relative group'>
-                <div className='flex items-center justify-center w-full h-full duration-300 '>
-                  <div className='z-10 text-lg px-4 font-bold text-white text-center shadow-text select-none'>
-                    {post.title}
-                  </div>
-                </div>
                 <LazyImage
                   src={headerImage}
-                  className='absolute top-0 w-full h-full object-cover object-center group-hover:scale-110 group-hover:brightness-50 transform duration-200'
+                  alt={post.title}
+                  className='absolute inset-0 w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-300'
                 />
-                {/* 卡片的阴影遮罩，为了凸显图片上的文字 */}
-                <div className='h-3/4 w-full absolute left-0 bottom-0'>
-                  <div className='h-full w-full absolute opacity-80 group-hover:opacity-100 transition-all duration-1000 bg-gradient-to-b from-transparent to-black'></div>
+                <div className='absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-black/65' />
+                <div className='relative z-10 h-full w-full flex items-end p-4'>
+                  <div className='text-base font-bold text-white line-clamp-2'>
+                    {post.title}
+                  </div>
                 </div>
               </div>
             </SmartLink>
           )
         })}
       </div>
-    </div>
+    </section>
   )
 }
