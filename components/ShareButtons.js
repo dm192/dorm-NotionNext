@@ -353,25 +353,23 @@ const ShareButtons = ({ post }) => {
                 onMouseLeave={closePopover}
                 aria-label={singleService}
                 key={singleService}
-                className='cursor-pointer bg-green-600 text-white rounded-full mx-1'>
+                className='relative cursor-pointer bg-green-600 text-white rounded-full mx-1'>
                 <div id='wechat-button'>
                   <i className='fab fa-weixin w-8' />
                 </div>
-                <div className='absolute'>
-                  <div
-                    id='pop'
-                    className={
-                      (qrCodeShow ? 'opacity-100 ' : ' invisible opacity-0') +
-                      ' z-40 absolute bottom-10 -left-10 bg-white shadow-xl transition-all duration-200 text-center'
-                    }>
-                    <div className='p-2 mt-1 w-28 h-28'>
-                      {qrCodeShow && <QrCode value={shareUrl} />}
-                    </div>
-                    <span className='text-black font-semibold p-1 rounded-t-lg text-sm mx-auto mb-1'>
-                      {locale.COMMON.SCAN_QR_CODE}
-                    </span>
+                <div
+                  id='pop'
+                  className={
+                    (qrCodeShow ? 'opacity-100 translate-y-0 ' : 'invisible opacity-0 translate-y-1 ') +
+                    'z-40 absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white shadow-xl transition-all duration-200 text-center rounded-lg'
+                  }>
+                  <div className='p-2 mt-1 w-28 h-28'>
+                    {qrCodeShow && <QrCode value={shareUrl} />}
                   </div>
-                </div>
+                  <span className='text-black font-semibold p-1 rounded-t-lg text-sm mx-auto mb-1 block'>
+                    {locale.COMMON.SCAN_QR_CODE}
+                  </span>
+                  </div>
               </button>
             )
           case 'link':

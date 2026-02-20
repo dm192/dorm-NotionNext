@@ -7,14 +7,14 @@ import { siteConfig } from '@/lib/config'
  * @returns
  */
 export function AnalyticsCard(props) {
-  const targetDate = new Date(siteConfig('HEO_SITE_CREATE_TIME', null, CONFIG))
+  const targetDate = new Date(siteConfig('AURORA_SITE_CREATE_TIME', null, CONFIG))
   const today = new Date()
   const diffTime = today.getTime() - targetDate.getTime() // 获取两个日期之间的毫秒数差值
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) // 将毫秒数差值转换为天数差值
-  const postCountTitle = siteConfig('HEO_POST_COUNT_TITLE', null, CONFIG)
-  const siteTimeTitle = siteConfig('HEO_SITE_TIME_TITLE', null, CONFIG)
-  const siteVisitTitle = siteConfig('HEO_SITE_VISIT_TITLE', null, CONFIG)
-  const siteVisitorTitle = siteConfig('HEO_SITE_VISITOR_TITLE', null, CONFIG)
+  const postCountTitle = siteConfig('AURORA_POST_COUNT_TITLE', null, CONFIG)
+  const siteTimeTitle = siteConfig('AURORA_SITE_TIME_TITLE', null, CONFIG)
+  const siteVisitTitle = siteConfig('AURORA_SITE_VISIT_TITLE', null, CONFIG)
+  const siteVisitorTitle = siteConfig('AURORA_SITE_VISITOR_TITLE', null, CONFIG)
 
   const { postCount } = props
   return <>

@@ -24,7 +24,7 @@ const BlogPostListPage = ({ page = 1, posts = [], postCount, siteInfo }) => {
             key={post.id}
             post={post}
             siteInfo={siteInfo}
-            showSummary={siteConfig('HEO_POST_LIST_SUMMARY', null, CONFIG)}
+            showSummary={siteConfig('AURORA_POST_LIST_SUMMARY', null, CONFIG)}
           />
         ))}
       </div>

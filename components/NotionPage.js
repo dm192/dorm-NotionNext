@@ -4,7 +4,7 @@ import { isBrowser, loadExternalResource } from '@/lib/utils'
 import mediumZoom from '@fisch0920/medium-zoom'
 import 'katex/dist/katex.min.css'
 import dynamic from 'next/dynamic'
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { NotionRenderer } from 'react-notion-x'
 
 /**
@@ -119,12 +119,17 @@ const NotionPage = ({ post, className }) => {
   // const cleanBlockMap = cleanBlocksWithWarn(post?.blockMap);
   // console.log('NotionPage render with post:', post);
 
+  // 渲染兜底：防止脏 block 数据导致 react-notion-x 在 SSR 时崩溃
+  const safeRecordMap = useMemo(() => {
+    return sanitizeRecordMapForRender(post?.blockMap)
+  }, [post?.blockMap])
+
   return (
     <div
       id='notion-article'
       className={`mx-auto overflow-hidden ${className || ''}`}>
       <NotionRenderer
-        recordMap={post?.blockMap}
+        recordMap={safeRecordMap}
         mapPageUrl={mapPageUrl}
         mapImageUrl={mapImgUrl}
         components={{
@@ -204,7 +209,37 @@ const autoScrollToHash = () => {
  */
 const mapPageUrl = id => {
   // return 'https://www.notion.so/' + id.replace(/-/g, '')
+  if (typeof id !== 'string' || !id) return '/'
   return '/' + id.replace(/-/g, '')
+}
+
+function sanitizeRecordMapForRender(recordMap) {
+  if (!recordMap || typeof recordMap !== 'object') return recordMap
+  const rawBlocks = recordMap.block
+  if (!rawBlocks || typeof rawBlocks !== 'object') return recordMap
+
+  const normalizedBlocks = {}
+  for (const [key, block] of Object.entries(rawBlocks)) {
+    if (!block || typeof block !== 'object') continue
+
+    const value =
+      block.value && typeof block.value === 'object' ? block.value : null
+    if (!value || !value.type) continue
+
+    const id = typeof value.id === 'string' && value.id ? value.id : key
+    if (typeof id !== 'string' || !id) continue
+
+    const normalizedValue = { ...value, id }
+    if (Array.isArray(normalizedValue.content)) {
+      normalizedValue.content = normalizedValue.content.filter(
+        item => typeof item === 'string' && item
+      )
+    }
+
+    normalizedBlocks[key] = { ...block, value: normalizedValue }
+  }
+
+  return { ...recordMap, block: normalizedBlocks }
 }
 
 /**

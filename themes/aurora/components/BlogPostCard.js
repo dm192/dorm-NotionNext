@@ -7,24 +7,24 @@ import TagItemMini from './TagItemMini'
 
 const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
   const showPreview =
-    siteConfig('HEO_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
+    siteConfig('AURORA_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
 
   if (
     post &&
     !post.pageCoverThumbnail &&
-    siteConfig('HEO_POST_LIST_COVER_DEFAULT', null, CONFIG)
+    siteConfig('AURORA_POST_LIST_COVER_DEFAULT', null, CONFIG)
   ) {
     post.pageCoverThumbnail = siteInfo?.pageCover
   }
 
   const showPageCover =
-    siteConfig('HEO_POST_LIST_COVER', null, CONFIG) &&
+    siteConfig('AURORA_POST_LIST_COVER', null, CONFIG) &&
     post?.pageCoverThumbnail &&
     !showPreview
 
-  const POST_TWO_COLS = siteConfig('HEO_HOME_POST_TWO_COLS', true, CONFIG)
+  const POST_TWO_COLS = siteConfig('AURORA_HOME_POST_TWO_COLS', true, CONFIG)
   const COVER_HOVER_ENLARGE = siteConfig(
-    'HEO_POST_LIST_COVER_HOVER_ENLARGE',
+    'AURORA_POST_LIST_COVER_HOVER_ENLARGE',
     true,
     CONFIG
   )
@@ -63,7 +63,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
                 <SmartLink
                   passHref
                   href={`/category/${post.category}`}
-                  className='aurora-chip cursor-pointer text-xs font-semibold'>
+                  className='aurora-chip cursor-pointer text-sm font-semibold'>
                   {post.category}
                 </SmartLink>
               </div>
@@ -76,7 +76,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon
                   icon={post.pageIcon}
-                  className='heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]'
+                  className='aurora-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]'
                 />
               )}
               <span className='menu-link'>{post.title}</span>

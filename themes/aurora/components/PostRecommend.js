@@ -8,7 +8,7 @@ export default function PostRecommend({ recommendPosts, siteInfo }) {
   const { locale } = useGlobal()
 
   if (
-    !siteConfig('HEO_ARTICLE_RECOMMEND', null, CONFIG) ||
+    !siteConfig('AURORA_ARTICLE_RECOMMEND', null, CONFIG) ||
     !recommendPosts ||
     recommendPosts.length === 0
   ) {

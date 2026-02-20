@@ -39,7 +39,7 @@ export default function PostAdjacent({ prev, next }) {
     }
   }, [])
 
-  if (!prev || !next || !siteConfig('HEO_ARTICLE_ADJACENT', null, CONFIG)) {
+  if (!prev || !next || !siteConfig('AURORA_ARTICLE_ADJACENT', null, CONFIG)) {
     return <></>
   }
 

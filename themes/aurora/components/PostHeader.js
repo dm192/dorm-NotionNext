@@ -14,14 +14,15 @@ export default function PostHeader({ post, siteInfo }) {
 
   return (
     <div id='post-bg' className='w-full relative z-10 mb-2'>
-      <div className='relative h-[22rem] md:h-[26rem] overflow-hidden'>
+      <div className='aurora-post-hero-frame relative h-[22rem] md:h-[26rem] overflow-hidden'>
         <LazyImage
           id='post-cover'
-          className='absolute inset-0 w-full h-full object-cover'
+          className='aurora-post-cover-image absolute inset-0 w-full h-full object-cover'
           src={headerImage}
           alt={post.title}
         />
         <div className='absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/50' />
+        <div className='aurora-post-cover-fade absolute inset-x-0 bottom-0 h-24 md:h-28 pointer-events-none' />
 
         <div className='absolute inset-x-0 bottom-0 p-4 md:p-6 max-w-[86rem] mx-auto'>
           <div className='aurora-glass px-4 md:px-6 py-4 md:py-5 text-white'>

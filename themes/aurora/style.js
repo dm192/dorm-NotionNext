@@ -8,8 +8,8 @@ import CONFIG from './config'
  * @returns
  */
 const Style = () => {
-  const accent = siteConfig('AURORA_ACCENT_PRIMARY', '#0ea5a4', CONFIG)
-  const accent2 = siteConfig('AURORA_ACCENT_SECONDARY', '#38bdf8', CONFIG)
+  const accent = siteConfig('AURORA_ACCENT_PRIMARY', '#ec4899', CONFIG)
+  const accent2 = siteConfig('AURORA_ACCENT_SECONDARY', '#f472b6', CONFIG)
   const text = siteConfig('AURORA_ACCENT_TEXT', '#0f172a', CONFIG)
   const textDark = siteConfig('AURORA_ACCENT_TEXT_DARK', '#e2e8f0', CONFIG)
   const blurPx = Number(siteConfig('AURORA_CARD_BLUR_PX', 16, CONFIG))
@@ -21,12 +21,12 @@ const Style = () => {
   const radiusButton = Number(siteConfig('AURORA_RADIUS_BUTTON_PX', 12, CONFIG))
   const bgLight = siteConfig(
     'AURORA_BACKGROUND_LIGHT',
-    'linear-gradient(145deg, #edf7ff 0%, #f8fcff 42%, #ecfeff 100%)',
+    'linear-gradient(145deg, #fff1f7 0%, #fff7fb 44%, #fef2ff 100%)',
     CONFIG
   )
   const bgDark = siteConfig(
     'AURORA_BACKGROUND_DARK',
-    'linear-gradient(160deg, #0b1220 0%, #0f172a 55%, #111827 100%)',
+    'linear-gradient(160deg, #2a1024 0%, #3b1532 52%, #221225 100%)',
     CONFIG
   )
   const bgImageLight = siteConfig('AURORA_BACKGROUND_IMAGE_LIGHT', '', CONFIG)
@@ -49,6 +49,9 @@ const Style = () => {
         --aurora-radius-panel: ${radiusPanel}px;
         --aurora-radius-chip: ${radiusChip}px;
         --aurora-radius-btn: ${radiusButton}px;
+        --aurora-ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --aurora-shadow-soft: 0 12px 28px rgba(15, 23, 42, 0.08);
+        --aurora-shadow-hover: 0 20px 38px rgba(15, 23, 42, 0.16);
       }
 
       body {
@@ -58,6 +61,7 @@ const Style = () => {
         ${resolvedBgLight ? 'background-size: cover;' : ''}
         ${resolvedBgLight ? 'background-position: center;' : ''}
         ${resolvedBgLight ? 'background-attachment: fixed;' : ''}
+        transition: background 300ms var(--aurora-ease), color 220ms var(--aurora-ease);
       }
 
       .dark body {
@@ -77,12 +81,31 @@ const Style = () => {
       #theme-aurora .card,
       #theme-aurora .aurora-glass,
       #theme-aurora nav {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
         border-radius: var(--aurora-radius-card) !important;
         background: rgba(255, 255, 255, var(--aurora-glass-alpha-light));
-        -webkit-backdrop-filter: blur(var(--aurora-glass-blur));
-        backdrop-filter: blur(var(--aurora-glass-blur));
+        -webkit-backdrop-filter: blur(var(--aurora-glass-blur)) saturate(145%);
+        backdrop-filter: blur(var(--aurora-glass-blur)) saturate(145%);
         border: 1px solid rgba(255, 255, 255, 0.36);
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+        box-shadow: var(--aurora-shadow-soft);
+      }
+
+      #theme-aurora .card::before,
+      #theme-aurora .aurora-glass::before,
+      #theme-aurora nav::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(
+          140deg,
+          rgba(255, 255, 255, 0.58) 0%,
+          rgba(255, 255, 255, 0.18) 35%,
+          rgba(255, 255, 255, 0.08) 100%
+        );
       }
 
       #theme-aurora .aurora-float-panel {
@@ -110,6 +133,19 @@ const Style = () => {
         box-shadow: 0 16px 36px rgba(2, 6, 23, 0.45);
       }
 
+      #theme-aurora.dark .card::before,
+      #theme-aurora.dark .aurora-glass::before,
+      .dark #theme-aurora .card::before,
+      .dark #theme-aurora .aurora-glass::before,
+      .dark #theme-aurora nav::before {
+        background: linear-gradient(
+          150deg,
+          rgba(255, 255, 255, 0.12) 0%,
+          rgba(255, 255, 255, 0.03) 45%,
+          rgba(255, 255, 255, 0.01) 100%
+        );
+      }
+
       #theme-aurora.dark .aurora-float-panel,
       .dark #theme-aurora .aurora-float-panel {
         border-color: rgba(148, 163, 184, 0.35);
@@ -118,9 +154,21 @@ const Style = () => {
       }
 
       #theme-aurora .text-indigo-600,
+      #theme-aurora .text-indigo-400,
       #theme-aurora .hover\\:text-indigo-600:hover,
+      #theme-aurora .hover\\:text-indigo-400:hover,
+      #theme-aurora .dark\\:hover\\:text-indigo-400:hover,
       #theme-aurora .group:hover .group-hover\\:text-indigo-600 {
         color: var(--aurora-accent) !important;
+      }
+
+      #theme-aurora .dark\\:text-yellow-400,
+      #theme-aurora .dark\\:text-yellow-500,
+      #theme-aurora .dark\\:hover\\:text-yellow-400:hover,
+      #theme-aurora .dark\\:hover\\:text-yellow-500:hover,
+      #theme-aurora .group:hover .dark\\:group-hover\\:text-yellow-400,
+      #theme-aurora .group:hover .dark\\:group-hover\\:text-yellow-500 {
+        color: var(--aurora-accent-2) !important;
       }
 
       #theme-aurora .bg-indigo-600,
@@ -184,16 +232,28 @@ const Style = () => {
 
       #theme-aurora .aurora-btn {
         border: 1px solid rgba(148, 163, 184, 0.22);
-        transition: all 180ms ease;
+        transition: transform 220ms var(--aurora-ease), box-shadow 220ms var(--aurora-ease), background 220ms var(--aurora-ease), color 220ms var(--aurora-ease), border-color 220ms var(--aurora-ease);
       }
 
       #theme-aurora .aurora-btn:hover {
-        transform: translateY(-1px);
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+      }
+
+      #theme-aurora .aurora-btn:active {
+        transform: translateY(0) scale(0.985);
       }
 
       #theme-aurora .aurora-chip {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        min-height: 2rem;
+        padding: 0.38rem 0.72rem;
+        font-size: 0.8125rem;
+        line-height: 1.2;
+        letter-spacing: 0.01em;
         border-radius: var(--aurora-radius-chip);
         background: rgba(255, 255, 255, 0.5);
         border: 1px solid rgba(148, 163, 184, 0.25);
@@ -209,7 +269,238 @@ const Style = () => {
       }
 
       #theme-aurora .aurora-post-card {
-        transition: transform 220ms ease;
+        transition: transform 260ms var(--aurora-ease);
+      }
+
+      #theme-aurora .aurora-spotlight {
+        border: 1px solid rgba(236, 72, 153, 0.35);
+        box-shadow: 0 16px 34px rgba(236, 72, 153, 0.2);
+      }
+
+      #theme-aurora .aurora-spotlight::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          120% 100% at 0% 0%,
+          rgba(244, 114, 182, 0.2) 0%,
+          rgba(244, 114, 182, 0.06) 35%,
+          transparent 70%
+        );
+      }
+
+      .dark #theme-aurora .aurora-spotlight {
+        border-color: rgba(244, 114, 182, 0.5);
+        box-shadow: 0 18px 36px rgba(131, 24, 67, 0.45);
+      }
+
+      #theme-aurora .aurora-post-hero-frame {
+        border-radius: clamp(18px, 2.2vw, 30px);
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        box-shadow: 0 20px 42px rgba(236, 72, 153, 0.16);
+        background: rgba(255, 255, 255, 0.24);
+      }
+
+      .dark #theme-aurora .aurora-post-hero-frame {
+        border-color: rgba(244, 114, 182, 0.34);
+        box-shadow: 0 24px 44px rgba(76, 18, 54, 0.48);
+        background: rgba(39, 13, 32, 0.36);
+      }
+
+      #theme-aurora .aurora-share-modal {
+        border: 1px solid rgba(255, 255, 255, 0.56);
+        background: rgba(255, 255, 255, 0.72);
+        -webkit-backdrop-filter: blur(calc(var(--aurora-glass-blur) + 4px))
+          saturate(150%);
+        backdrop-filter: blur(calc(var(--aurora-glass-blur) + 4px)) saturate(150%);
+        box-shadow: 0 22px 52px rgba(15, 23, 42, 0.22);
+      }
+
+      #theme-aurora.dark .aurora-share-modal,
+      .dark #theme-aurora .aurora-share-modal {
+        border-color: rgba(148, 163, 184, 0.38);
+        background: rgba(15, 23, 42, 0.74);
+      }
+
+      #theme-aurora .aurora-post-cover-image {
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 75%,
+          rgba(0, 0, 0, 0.12) 92%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 1) 75%,
+          rgba(0, 0, 0, 0.12) 92%,
+          rgba(0, 0, 0, 0) 100%
+        );
+      }
+
+      #theme-aurora .aurora-post-cover-fade {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 241, 247, 0) 0%,
+          rgba(255, 241, 247, 0.4) 45%,
+          rgba(255, 241, 247, 0.9) 100%
+        );
+      }
+
+      .dark #theme-aurora .aurora-post-cover-fade {
+        background: linear-gradient(
+          to bottom,
+          rgba(42, 16, 36, 0) 0%,
+          rgba(42, 16, 36, 0.38) 45%,
+          rgba(42, 16, 36, 0.9) 100%
+        );
+      }
+
+      #theme-aurora .aurora-catalog-panel,
+      #theme-aurora .aurora-catalog-scroll,
+      #theme-aurora .aurora-catalog-nav {
+        border-radius: var(--aurora-radius-panel) !important;
+      }
+
+      /* Notion 内容块统一圆角化 */
+      #theme-aurora .notion-code,
+      #theme-aurora .notion-quote,
+      #theme-aurora .notion-callout,
+      #theme-aurora .notion-bookmark,
+      #theme-aurora .notion-file,
+      #theme-aurora .notion-asset-wrapper,
+      #theme-aurora .notion-collection-card,
+      #theme-aurora .notion-collection-card-cover,
+      #theme-aurora .notion-collection-page-properties,
+      #theme-aurora .notion-table,
+      #theme-aurora .notion-table-wrap,
+      #theme-aurora .notion-simple-table,
+      #theme-aurora .notion-simple-table td,
+      #theme-aurora .notion-simple-table th,
+      #theme-aurora .notion-text-equation {
+        border-radius: var(--aurora-radius-panel) !important;
+      }
+
+      #theme-aurora .notion-table-wrap,
+      #theme-aurora .notion-simple-table,
+      #theme-aurora .notion-code,
+      #theme-aurora .notion-bookmark,
+      #theme-aurora .notion-callout,
+      #theme-aurora .notion-file {
+        overflow: hidden;
+      }
+
+      #theme-aurora .notion-table-wrap,
+      #theme-aurora .notion-simple-table,
+      #theme-aurora .notion-code,
+      #theme-aurora .notion-bookmark,
+      #theme-aurora .notion-callout,
+      #theme-aurora .notion-file,
+      #theme-aurora .notion-collection-card {
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        background: rgba(255, 255, 255, 0.46);
+      }
+
+      .dark #theme-aurora .notion-table-wrap,
+      .dark #theme-aurora .notion-simple-table,
+      .dark #theme-aurora .notion-code,
+      .dark #theme-aurora .notion-bookmark,
+      .dark #theme-aurora .notion-callout,
+      .dark #theme-aurora .notion-file,
+      .dark #theme-aurora .notion-collection-card {
+        border-color: rgba(148, 163, 184, 0.34);
+        background: rgba(15, 23, 42, 0.42);
+      }
+
+      #theme-aurora .notion-image img,
+      #theme-aurora .notion-asset-wrapper img,
+      #theme-aurora .notion-asset-wrapper video,
+      #theme-aurora .notion-pdf,
+      #theme-aurora .notion-embed,
+      #theme-aurora .notion-embed iframe {
+        border-radius: var(--aurora-radius-panel) !important;
+      }
+
+      #theme-aurora .notion-table-wrap table,
+      #theme-aurora .notion-simple-table {
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      #theme-aurora .notion-table-wrap table tr:first-child th:first-child,
+      #theme-aurora .notion-simple-table tr:first-child th:first-child,
+      #theme-aurora .notion-simple-table tr:first-child td:first-child {
+        border-top-left-radius: var(--aurora-radius-panel);
+      }
+
+      #theme-aurora .notion-table-wrap table tr:first-child th:last-child,
+      #theme-aurora .notion-simple-table tr:first-child th:last-child,
+      #theme-aurora .notion-simple-table tr:first-child td:last-child {
+        border-top-right-radius: var(--aurora-radius-panel);
+      }
+
+      #theme-aurora .notion-table-wrap table tr:last-child td:first-child,
+      #theme-aurora .notion-simple-table tr:last-child td:first-child {
+        border-bottom-left-radius: var(--aurora-radius-panel);
+      }
+
+      #theme-aurora .notion-table-wrap table tr:last-child td:last-child,
+      #theme-aurora .notion-simple-table tr:last-child td:last-child {
+        border-bottom-right-radius: var(--aurora-radius-panel);
+      }
+
+      #theme-aurora a,
+      #theme-aurora button,
+      #theme-aurora .card,
+      #theme-aurora .aurora-glass,
+      #theme-aurora .aurora-float-panel {
+        transition: transform 240ms var(--aurora-ease), box-shadow 260ms var(--aurora-ease), background-color 220ms var(--aurora-ease), border-color 220ms var(--aurora-ease), color 200ms var(--aurora-ease), opacity 200ms var(--aurora-ease);
+      }
+
+      #theme-aurora .card:hover,
+      #theme-aurora .aurora-glass:hover {
+        box-shadow: var(--aurora-shadow-hover);
+      }
+
+      @media (max-width: 768px) {
+        #theme-aurora #wrapper-outer {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+
+        #theme-aurora #post-outer-wrapper {
+          padding-left: 0.1rem;
+          padding-right: 0.1rem;
+        }
+
+        #theme-aurora .aurora-glass,
+        #theme-aurora .card,
+        #theme-aurora nav {
+          -webkit-backdrop-filter: blur(calc(var(--aurora-glass-blur) * 0.86))
+            saturate(138%);
+          backdrop-filter: blur(calc(var(--aurora-glass-blur) * 0.86))
+            saturate(138%);
+        }
+
+        #theme-aurora .aurora-btn,
+        #theme-aurora button,
+        #theme-aurora [role='button'] {
+          min-height: 2.5rem;
+        }
+
+        #theme-aurora .aurora-chip {
+          min-height: 2.1rem;
+          padding: 0.44rem 0.78rem;
+          font-size: 0.875rem;
+        }
+
+        #theme-aurora .article,
+        #theme-aurora .notion {
+          font-size: 0.975rem;
+          line-height: 1.72;
+        }
       }
 
       #theme-aurora #category-bar-items > div,
@@ -268,4 +559,3 @@ const Style = () => {
 }
 
 export { Style }
-
