@@ -1,9 +1,10 @@
 /**
- *   HEO 主题说明
- *  > 主题设计者 [张洪](https://zhheo.com/)
+ *   Aurora 主题说明
+ *  > 基于 Heo 主题深度魔改
+ *  > 原始主题设计者 [张洪](https://zhheo.com/)
  *  > 主题开发者 [tangly1024](https://github.com/tangly1024)
- *  1. 开启方式 在blog.config.js 将主题配置为 `HEO`
- *  2. 更多说明参考此[文档](https://docs.tangly1024.com/article/notionnext-heo)
+ *  1. 开启方式 在blog.config.js 将主题配置为 `AURORA`
+ *  2. 更多说明参考此[文档](https://docs.tangly1024.com/article/notionnext-aurora)
  */
 
 import Comment from '@/components/Comment'
@@ -12,7 +13,6 @@ import { HashTag } from '@/components/HeroIcons'
 import LazyImage from '@/components/LazyImage'
 import replaceSearchResult from '@/components/Mark'
 import NotionPage from '@/components/NotionPage'
-import ShareBar from '@/components/ShareBar'
 import WWAds from '@/components/WWAds'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
@@ -28,9 +28,9 @@ import BlogPostListScroll from './components/BlogPostListScroll'
 import FloatTocButton from './components/FloatTocButton'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import FreshPostSpotlight from './components/FreshPostSpotlight'
 import LatestPostsGroup from './components/LatestPostsGroup'
 import LoadingRingCover from './components/LoadingRingCover'
-import { NoticeBar } from './components/NoticeBar'
 import PostAdjacent from './components/PostAdjacent'
 import PostCopyright from './components/PostCopyright'
 import PostHeader from './components/PostHeader'
@@ -62,8 +62,6 @@ const LayoutBase = props => {
       {/* 顶部导航 */}
       <Header {...props} />
 
-      {/* 通知横幅 */}
-      {router.route === '/' ? <NoticeBar /> : null}
       {fullWidth ? null : <PostHeader {...props} isDarkMode={isDarkMode} />}
     </header>
   )
@@ -74,7 +72,7 @@ const LayoutBase = props => {
 
   const maxWidth = fullWidth ? 'max-w-[96rem] mx-auto' : 'max-w-[86rem]' // 普通最大宽度是86rem和顶部菜单栏对齐，留空则与窗口对齐
 
-  const HEO_LOADING_COVER = siteConfig('HEO_LOADING_COVER', true, CONFIG)
+  const AURORA_LOADING_COVER = siteConfig('AURORA_LOADING_COVER', true, CONFIG)
 
   // 加载wow动画
   useEffect(() => {
@@ -84,11 +82,11 @@ const LayoutBase = props => {
   return (
     <div
       id='theme-aurora'
-      className={`${siteConfig('FONT_STYLE')} bg-[#f7f9fe] dark:bg-[#18171d] h-full min-h-screen flex flex-col scroll-smooth`}>
+      className={`${siteConfig('FONT_STYLE')} h-full min-h-screen flex flex-col scroll-smooth`}>
       <Style />
       <TopProgressBar />
 
-      {/* 顶部嵌入 导航栏，首页放hero，文章页放文章详情 */}
+      {/* 顶部嵌入 导航栏与文章页头 */}
       {headerSlot}
 
       {/* 主区块 */}
@@ -112,27 +110,60 @@ const LayoutBase = props => {
       {/* 页脚 */}
       <Footer />
 
-      {HEO_LOADING_COVER && <LoadingRingCover />}
+      {AURORA_LOADING_COVER && <LoadingRingCover />}
     </div>
   )
 }
 
 /**
  * 首页
- * 是一个博客列表，嵌入一个Hero大图
+ * 博客列表，顶部增加最新单篇推荐卡
  * @param {*} props
  * @returns
  */
 const LayoutIndex = props => {
+  const sourcePosts = Array.isArray(props.posts) ? props.posts : []
+  const spotlightPost = props?.latestPosts?.[0] || sourcePosts[0]
+  const remainingPosts = sourcePosts
+    .filter(post => post && (!spotlightPost?.id || post?.id !== spotlightPost.id))
+    .sort((a, b) => {
+      const viewDiff = getPostViewCount(b) - getPostViewCount(a)
+      if (viewDiff !== 0) return viewDiff
+      return getPostTimestamp(b) - getPostTimestamp(a)
+    })
+
   return (
     <div id='post-outer-wrapper' className='px-5 md:px-0'>
+      <FreshPostSpotlight latestPosts={[spotlightPost]} siteInfo={props.siteInfo} />
       {siteConfig('POST_LIST_STYLE') === 'page' ? (
-        <BlogPostListPage {...props} />
+        <BlogPostListPage
+          {...props}
+          posts={remainingPosts}
+          postCount={remainingPosts.length}
+        />
       ) : (
-        <BlogPostListScroll {...props} />
+        <BlogPostListScroll {...props} posts={remainingPosts} />
       )}
     </div>
   )
+}
+
+const getPostViewCount = post =>
+  Number(
+    post?.views ??
+      post?.view ??
+      post?.visits ??
+      post?.visit ??
+      post?.pagePv ??
+      post?.page_pv ??
+      post?.pv ??
+      0
+  ) || 0
+
+const getPostTimestamp = post => {
+  const dateStr = post?.lastEditedDay || post?.publishDay || ''
+  const ts = new Date(dateStr).getTime()
+  return Number.isNaN(ts) ? 0 : ts
 }
 
 /**
@@ -297,8 +328,6 @@ const LayoutSlug = props => {
               {/* 上一篇\下一篇文章 */}
               <PostAdjacent {...props} />
 
-              {/* 分享 */}
-              <ShareBar post={post} />
               {post?.type === 'Post' && (
                 <div className='px-5'>
                   {/* 版权 */}

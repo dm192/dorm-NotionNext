@@ -7,7 +7,7 @@ import { siteConfig } from '@/lib/config'
  * @constructor
  */
 const JumpToCommentButton = () => {
-  if (!siteConfig('HEO_WIDGET_TO_COMMENT', null, CONFIG)) {
+  if (!siteConfig('AURORA_WIDGET_TO_COMMENT', null, CONFIG)) {
     return <></>
   }
 

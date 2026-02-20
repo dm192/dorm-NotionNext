@@ -17,7 +17,7 @@ export default function PostCopyright() {
     }
   }, [])
 
-  if (!siteConfig('HEO_ARTICLE_COPYRIGHT', null, CONFIG)) {
+  if (!siteConfig('AURORA_ARTICLE_COPYRIGHT', null, CONFIG)) {
     return <></>
   }
 
@@ -40,7 +40,7 @@ export default function PostCopyright() {
           <strong className='mr-2'>{locale.COMMON.COPYRIGHT}:</strong>
           {locale.COMMON.COPYRIGHT_NOTICE}
         </li>
-        {siteConfig('HEO_ARTICLE_NOT_BY_AI', false, CONFIG) && (
+        {siteConfig('AURORA_ARTICLE_NOT_BY_AI', false, CONFIG) && (
           <li>
             <NotByAI />
           </li>

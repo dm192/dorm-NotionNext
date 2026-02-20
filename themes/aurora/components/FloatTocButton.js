@@ -20,7 +20,7 @@ export default function FloatTocButton(props) {
       <div
         className={`fixed top-0 right-0 z-40 ${tocVisible ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div
-          className={`aurora-glass w-64 duration-200 fixed right-4 bottom-12 p-2 ${
+          className={`aurora-glass w-64 rounded-2xl overflow-hidden duration-200 fixed right-4 bottom-12 p-2 ${
             tocVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
           }`}>
           <div className='dark:text-gray-400 text-gray-600'>

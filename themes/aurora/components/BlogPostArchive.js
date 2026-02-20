@@ -15,16 +15,16 @@ const BlogPostArchive = ({ posts = [], archiveTitle, siteInfo }) => {
       <ul className='space-y-3'>
         {posts.map(post => {
           const showPreview =
-            siteConfig('HEO_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
+            siteConfig('AURORA_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
           if (
             post &&
             !post.pageCoverThumbnail &&
-            siteConfig('HEO_POST_LIST_COVER_DEFAULT', null, CONFIG)
+            siteConfig('AURORA_POST_LIST_COVER_DEFAULT', null, CONFIG)
           ) {
             post.pageCoverThumbnail = siteInfo?.pageCover
           }
           const showPageCover =
-            siteConfig('HEO_POST_LIST_COVER', null, CONFIG) &&
+            siteConfig('AURORA_POST_LIST_COVER', null, CONFIG) &&
             post?.pageCoverThumbnail &&
             !showPreview
 

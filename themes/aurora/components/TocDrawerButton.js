@@ -11,7 +11,7 @@ import { siteConfig } from '@/lib/config'
  */
 const TocDrawerButton = (props) => {
   const { locale } = useGlobal()
-  if (!siteConfig('HEO_WIDGET_TOC', null, CONFIG)) {
+  if (!siteConfig('AURORA_WIDGET_TOC', null, CONFIG)) {
     return <></>
   }
   return (<div onClick={props.onClick} className='py-2 px-3 cursor-pointer transform duration-200 flex justify-center items-center w-7 h-7 text-center' title={locale.POST.TOP} >

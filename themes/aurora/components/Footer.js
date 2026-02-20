@@ -33,6 +33,9 @@ const Footer = () => {
               </SmartLink>
               {BIO && <span className='mx-1'> | {BIO}</span>}
             </div>
+            <div className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+              Aurora Theme · 基于 Heo 主题深度魔改
+            </div>
           </div>
 
           <div id='footer-bottom-right' className='text-center lg:text-right'>

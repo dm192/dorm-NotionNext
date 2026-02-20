@@ -48,15 +48,15 @@ const Catalog = ({ toc }) => {
   if (!toc || toc.length < 1) return <></>
 
   return (
-    <div className='px-2 py-1 text-black dark:text-white'>
+    <div className='aurora-catalog-panel aurora-float-panel px-2 py-2 text-black dark:text-white rounded-xl overflow-hidden'>
       <div className='w-full font-semibold text-sm mb-2'>
         <i className='mr-2 fas fa-stream' />
         {locale.COMMON.TABLE_OF_CONTENTS}
       </div>
       <div
-        className='overflow-y-auto max-h-36 lg:max-h-96 overscroll-none scroll-hidden pr-1'
+        className='aurora-catalog-scroll overflow-y-auto max-h-36 lg:max-h-96 overscroll-none scroll-hidden pr-1 rounded-lg'
         ref={tRef}>
-        <nav className='h-full space-y-1'>
+        <nav className='aurora-catalog-nav h-full space-y-1 rounded-lg'>
           {toc.map(tocItem => {
             const id = uuidToId(tocItem.id)
             return (

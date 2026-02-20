@@ -3,7 +3,6 @@ import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import CONFIG from '../config'
 import Announcement from './Announcement'
 import Card from './Card'
@@ -18,10 +17,10 @@ export function InfoCard(props) {
   const router = useRouter()
   // 在文章详情页特殊处理
   const isSlugPage = router.pathname.indexOf('/[prefix]') === 0
-  const url1 = siteConfig('HEO_INFO_CARD_URL1', null, CONFIG)
-  const icon1 = siteConfig('HEO_INFO_CARD_ICON1', null, CONFIG)
-  const url2 = siteConfig('HEO_INFO_CARD_URL2', null, CONFIG)
-  const icon2 = siteConfig('HEO_INFO_CARD_ICON2', null, CONFIG)
+  const url1 = siteConfig('AURORA_INFO_CARD_URL1', null, CONFIG)
+  const icon1 = siteConfig('AURORA_INFO_CARD_ICON1', null, CONFIG)
+  const url2 = siteConfig('AURORA_INFO_CARD_URL2', null, CONFIG)
+  const icon2 = siteConfig('AURORA_INFO_CARD_ICON2', null, CONFIG)
   const author = siteConfig('AUTHOR')
   const bio = siteConfig('BIO')
 
@@ -30,9 +29,6 @@ export function InfoCard(props) {
       className={`${className || ''} aurora-glass wow fadeInUp text-gray-900 dark:text-gray-100 flex flex-col overflow-hidden relative`}>
       <div className='flex justify-between items-start gap-3'>
         <div className='min-w-0 space-y-3'>
-          <div className='aurora-float-panel inline-flex'>
-            <GreetingsWords />
-          </div>
           <div className='aurora-float-panel px-3 py-2'>
             <h2 className='text-2xl md:text-3xl font-black truncate'>{author}</h2>
           </div>
@@ -91,8 +87,8 @@ export function InfoCard(props) {
  * @returns
  */
 function MoreButton() {
-  const url3 = siteConfig('HEO_INFO_CARD_URL3', null, CONFIG)
-  const text3 = siteConfig('HEO_INFO_CARD_TEXT3', null, CONFIG)
+  const url3 = siteConfig('AURORA_INFO_CARD_URL3', null, CONFIG)
+  const text3 = siteConfig('AURORA_INFO_CARD_TEXT3', null, CONFIG)
   if (!url3) {
     return <></>
   }
@@ -110,26 +106,5 @@ function MoreButton() {
         <div className='font-bold'>{text3}</div>
       </div>
     </SmartLink>
-  )
-}
-
-/**
- * 欢迎语
- */
-function GreetingsWords() {
-  const greetings = siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
-  const [greeting, setGreeting] = useState(greetings[0])
-  // 每次点击，随机获取greetings中的一个
-  const handleChangeGreeting = () => {
-    const randomIndex = Math.floor(Math.random() * greetings.length)
-    setGreeting(greetings[randomIndex])
-  }
-
-  return (
-    <div
-      onClick={handleChangeGreeting}
-      className='select-none inline-flex cursor-pointer py-1 px-2 bg-white/55 dark:bg-slate-800/65 hover:bg-white dark:hover:text-white dark:hover:bg-black text-sm rounded-lg duration-200 transition-colors'>
-      {greeting}
-    </div>
   )
 }

@@ -5,7 +5,6 @@ import Card from './Card'
 import Catalog from './Catalog'
 import CategoryGroup from './CategoryGroup'
 import { InfoCard } from './InfoCard'
-import LatestPostsGroupMini from './LatestPostsGroupMini'
 import TagGroups from './TagGroups'
 import TouchMeCard from './TouchMeCard'
 import { useRouter } from 'next/router'
@@ -66,14 +65,6 @@ export default function SideRight(props) {
         {/* 联系交流群 */}
         <div className='wow fadeInUp'>
           <TouchMeCard />
-        </div>
-
-        {/* 最新文章列表 */}
-        <div
-          className={
-            'aurora-glass border wow fadeInUp hover:border-indigo-600 duration-200 dark:text-white rounded-xl lg:p-6 p-4 hidden lg:block'
-          }>
-          <LatestPostsGroupMini {...props} />
         </div>
 
         {rightAreaSlot}

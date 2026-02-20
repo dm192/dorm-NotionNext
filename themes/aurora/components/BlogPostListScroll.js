@@ -9,7 +9,7 @@ import BlogPostListEmpty from './BlogPostListEmpty'
 const BlogPostListScroll = ({
   posts = [],
   currentSearch,
-  showSummary = siteConfig('HEO_POST_LIST_SUMMARY', null, CONFIG),
+  showSummary = siteConfig('AURORA_POST_LIST_SUMMARY', null, CONFIG),
   siteInfo
 }) => {
   const { locale, NOTION_CONFIG } = useGlobal()

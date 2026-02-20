@@ -2,12 +2,19 @@ import { siteConfig } from '@/lib/config'
 import { loadExternalResource } from '@/lib/utils'
 import { useEffect } from 'react'
 
+let isAdsenseInitialized = false
+let adsMutationObserver = null
+
 /**
  * 请求广告元素
  * 调用后，实际只有当广告单元在页面中可见时才会真正获取
  */
 function requestAd(ads) {
   if (!ads || ads.length === 0) {
+    return
+  }
+
+  if (typeof window === 'undefined' || !window.adsbygoogle || ads.length === 0) {
     return
   }
 
@@ -22,8 +29,10 @@ function requestAd(ads) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const adStatus = entry.target.getAttribute('data-adsbygoogle-status')
-          if (!adStatus || adStatus !== 'done') {
-            adsbygoogle.push(entry.target)
+          const requested = entry.target.getAttribute('data-aurora-ad-requested')
+          if ((!adStatus || adStatus !== 'done') && requested !== 'true') {
+            entry.target.setAttribute('data-aurora-ad-requested', 'true')
+            ;(window.adsbygoogle = window.adsbygoogle || []).push({})
             observer.unobserve(entry.target) // stop observing once ad is loaded
           }
         }
@@ -61,48 +70,73 @@ function getNodesWithAdsByGoogleClass(node) {
  * @returns
  */
 export const initGoogleAdsense = ADSENSE_GOOGLE_ID => {
-  console.log('Load Adsense')
+  if (!ADSENSE_GOOGLE_ID) return
+
+  if (isAdsenseInitialized) {
+    const ads = document.querySelectorAll('ins.adsbygoogle')
+    requestAd(Array.from(ads))
+    return
+  }
+
   loadExternalResource(
     `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_GOOGLE_ID}`,
-    'js'
-  ).then(url => {
-    setTimeout(() => {
-      // 页面加载完成后加载一次广告
-      const ads = document.querySelectorAll('ins.adsbygoogle')
-      if (window.adsbygoogle && ads.length > 0) {
-        requestAd(Array.from(ads))
+    'js',
+    {
+      silent: true,
+      attrs: {
+        crossorigin: 'anonymous'
       }
+    }
+  )
+    .then(() => {
+      isAdsenseInitialized = true
 
-      // 创建一个 MutationObserver 实例，监听页面上新出现的广告单元
-      const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          // 检查每个添加到DOM中的节点
-          mutation.addedNodes.forEach(node => {
-            // 如果节点是adsbygoogle元素，则请求广告
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              const adsNodes = getNodesWithAdsByGoogleClass(node)
-              if (adsNodes.length > 0) {
-                requestAd(adsNodes)
+      setTimeout(() => {
+        // 页面加载完成后加载一次广告
+        const ads = document.querySelectorAll('ins.adsbygoogle')
+        if (window.adsbygoogle && ads.length > 0) {
+          requestAd(Array.from(ads))
+        }
+
+        // 创建一个 MutationObserver 实例，监听页面上新出现的广告单元
+        if (adsMutationObserver) {
+          adsMutationObserver.disconnect()
+        }
+
+        adsMutationObserver = new MutationObserver(mutations => {
+          mutations.forEach(mutation => {
+            // 检查每个添加到DOM中的节点
+            mutation.addedNodes.forEach(node => {
+              // 如果节点是adsbygoogle元素，则请求广告
+              if (node.nodeType === Node.ELEMENT_NODE) {
+                const adsNodes = getNodesWithAdsByGoogleClass(node)
+                if (adsNodes.length > 0) {
+                  requestAd(adsNodes)
+                }
               }
-            }
+            })
           })
         })
-      })
 
-      // 配置 MutationObserver 监听特定类型的 DOM 变化
-      const observerConfig = {
-        childList: true, // 观察目标子节点的变化
-        subtree: true // 包括目标节点的所有后代节点
-      }
+        // 配置 MutationObserver 监听特定类型的 DOM 变化
+        const observerConfig = {
+          childList: true, // 观察目标子节点的变化
+          subtree: true // 包括目标节点的所有后代节点
+        }
 
-      // 启动 MutationObserver
-      observer.observe(
-        document.querySelector('#article-wrapper #notion-article') ||
-          document.body,
-        observerConfig
+        // 启动 MutationObserver
+        adsMutationObserver.observe(
+          document.querySelector('#article-wrapper #notion-article') ||
+            document.body,
+          observerConfig
+        )
+      }, 100)
+    })
+    .catch(() => {
+      console.info(
+        '[Adsense] Script blocked or network unavailable. Please disable ad-block for this site or check proxy/network.'
       )
-    }, 100)
-  })
+    })
 }
 
 /**
@@ -208,7 +242,7 @@ const AdEmbed = () => {
         }
       })
     }, 1000)
-  }, [])
+  }, [ADSENSE_GOOGLE_ID, ADSENSE_GOOGLE_SLOT_AUTO, ADSENSE_GOOGLE_TEST])
   return <></>
 }
 
